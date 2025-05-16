@@ -3,7 +3,7 @@ title: "Temas"
 weight: 3
 ---
 
-# Guías de Temas
+# Guías Temáticas
 
-Aquí encontrará una introducción a todas las partes clave de Helm que necesitará
-o querrá saber.
+Aquí encontrarás introducciones a todas las partes clave de Helm que necesitarás
+o querrás conocer.

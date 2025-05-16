@@ -1,54 +1,55 @@
 ---
-title: "Uso de Helm"
-description: "Explica los conceptos básicos de Helm.."
+title: "Usando Helm"
+description: "Explica los conceptos básicos de Helm."
 weight: 3
 ---
 
-Esta guía explica los conceptos básicos del uso de Helm para administrar paquetes
-en su clúster de Kubernetes. Asume que ya has [instalado]({{< ref
-"install.md" >}}) el cliente de Helm.
+Esta guía explica los conceptos básicos de cómo usar Helm para gestionar paquetes
+en tu clúster de Kubernetes. Asume que ya has [instalado]({{< ref
+"install.md" >}}) el cliente Helm.
 
-Si simplemente está interesado en ejecutar algunos comandos rápidos, es posible
-que desee comenzar con la [Guía de inicio rápido]({{< ref "quickstart.md" >}}).
-Este capítulo cubre los detalles de los comandos de Helm y explica cómo usar Helm.
+Si simplemente estás interesado en ejecutar algunos comandos rápidos, es posible
+que desees comenzar con la [Guía de Inicio Rápido]({{< ref "quickstart.md" >}}).
+Este capítulo cubre los detalles de los comandos de Helm y explica cómo usar
+Helm.
 
 ## Tres Grandes Conceptos
 
 Un *Chart* es un paquete de Helm. Contiene todas las definiciones de recursos
 necesarias para ejecutar una aplicación, herramienta o servicio dentro de un
-clúster de Kubernetes. Piense en él como el equivalente de Kubernetes de una
-fórmula Homebrew, un Apt de dpkg o un archivo Yum de RPM.
+clúster de Kubernetes. Piensa en él como el equivalente de Kubernetes a una
+fórmula de Homebrew, un dpkg de Apt, o un archivo RPM de Yum.
 
-Un *Repositorio* es el lugar donde se pueden recopilar y compartir Charts.
-Es como el [archivo CPAN](https://www.cpan.org) de Perl o la [Base de Datos de
-Paquetes de Fedora](https://src.fedoraproject.org/), pero para los paquetes
-de Kubernetes.
+Un *Repositorio* es el lugar donde se pueden recopilar y compartir charts. Es
+como el [archivo CPAN](https://www.cpan.org) de Perl o la [Base de Datos de
+Paquetes de Fedora](https://src.fedoraproject.org/), pero para paquetes de
+Kubernetes.
 
-Un *Release* es una instancia de un Chart que se ejecuta en un clúster de
-Kubernetes. A menudo, un Chart se puede instalar muchas veces en el mismo clúster.
-Y cada vez que se instala, se crea un nuevo _release_. Considere un Chart MySQL.
-Si desea que se ejecuten dos bases de datos en su clúster, puede instalar ese
-Chart dos veces. Cada uno tendrá su propio _release_, que a su vez tendrá su propio
-_nombre de release_.
+Un *Lanzamiento* es una instancia de un chart ejecutándose en un clúster de
+Kubernetes. Un chart a menudo puede instalarse muchas veces en el mismo clúster.
+Y cada vez que se instala, se crea un nuevo _lanzamiento_. Considera un chart de
+MySQL. Si quieres dos bases de datos ejecutándose en tu clúster, puedes
+instalar ese chart dos veces. Cada uno tendrá su propio _lanzamiento_, que a su
+vez tendrá su propio _nombre de lanzamiento_.
 
 Con estos conceptos en mente, ahora podemos explicar Helm así:
 
-Helm instala _charts_ en Kubernetes, creando nuevos _release_ para cada
-instalacion. Y para encontrar nuevos charts, puedes buscar en los _repositorios_ 
+Helm instala _charts_ en Kubernetes, creando un nuevo _lanzamiento_ para cada
+instalación. Y para encontrar nuevos charts, puedes buscar en los _repositorios_
 de charts de Helm.
 
-## 'helm search': Buscando Charts
+## 'helm search': Encontrando Charts
 
-Helm viene con un poderoso comando de búsqueda. Se puede utilizar para buscar
-dos tipos diferentes de fuentes:
+Helm viene con un potente comando de búsqueda. Se puede usar para buscar dos
+tipos diferentes de fuentes:
 
-- `helm search hub` buscar en [Artifact Hub](https://artifacthub.io), que
-  enumera charts de Helm de docenas de repositorios diferentes.
-- `helm search repo` busca en los repositorios que ha agregado a su cliente
-  de helm local (con `helm repo add`). Esta búsqueda se realiza a través de
-  datos locales y no se necesita una conexión de red pública.
+- `helm search hub` busca en [Artifact Hub](https://artifacthub.io), que lista
+  charts de Helm de docenas de repositorios diferentes.
+- `helm search repo` busca en los repositorios que has agregado a tu cliente
+  helm local (con `helm repo add`). Esta búsqueda se realiza sobre datos
+  locales, y no se necesita conexión a la red pública.
 
-Puede encontrar charts disponibles públicamente ejecutando `helm search hub`:
+Puedes encontrar charts disponibles públicamente ejecutando `helm search hub`:
 
 ```console
 $ helm search hub wordpress
@@ -60,9 +61,11 @@ https://hub.helm.sh/charts/presslabs/wordpress-...  v0.7.1        v0.7.1      A 
 
 Lo anterior busca todos los charts de `wordpress` en Artifact Hub.
 
-Sin filtro, `helm search hub` muestra todos los charts disponibles.
+Sin filtro, `helm search hub` te muestra todos los charts disponibles.
 
-Usando `helm search repo`, puede encontrar los nombres de los charts en los
+`helm search hub` expone la URL a la ubicación en [artifacthub.io](https://artifacthub.io/) pero no el repositorio Helm real. `helm search hub --list-repo-url` expone la URL real del repositorio Helm, lo cual es útil cuando estás buscando agregar un nuevo repositorio: `helm repo add [NOMBRE] [URL]`.
+
+Usando `helm search repo`, puedes encontrar los nombres de los charts en los
 repositorios que ya has agregado:
 
 ```console
@@ -78,8 +81,8 @@ brigade/brigade-project       1.0.0         v1.0.0      Create a Brigade project
 brigade/kashti                0.4.0         v0.4.0      A Helm chart for Kubernetes
 ```
 
-Helm search utiliza un algoritmo de coincidencia de cadenas difusas, por lo
-que puede escribir partes de palabras o frases:
+Helm search usa un algoritmo de coincidencia de cadenas difusa, por lo que
+puedes escribir partes de palabras o frases:
 
 ```console
 $ helm search repo kash
@@ -87,14 +90,15 @@ NAME            CHART VERSION APP VERSION DESCRIPTION
 brigade/kashti  0.4.0         v0.4.0      A Helm chart for Kubernetes
 ```
 
-El comando search es una buena forma de encontrar paquetes disponibles. Una vez que
-haya encontrado el paquete que desea instalar, puede usar `helm install` para instalarlo.
+La búsqueda es una buena manera de encontrar paquetes disponibles. Una vez que
+hayas encontrado un paquete que quieres instalar, puedes usar `helm install`
+para instalarlo.
 
-## 'helm install': Instalando un Package
+## 'helm install': Instalando un Paquete
 
-Para instalar un nuevo paquete, use el comando `helm install`. En su forma más simple,
-se necesitan dos argumentos: un nombre de release que elijas y el nombre del chart
-que deseas instalar.
+Para instalar un nuevo paquete, usa el comando `helm install`. En su forma más
+simple, toma dos argumentos: Un nombre de lanzamiento que eliges, y el nombre
+del chart que quieres instalar.
 
 ```console
 $ helm install happy-panda bitnami/wordpress
@@ -129,21 +133,58 @@ To access your WordPress site from outside the cluster follow the steps below:
   echo Password: $(kubectl get secret --namespace default happy-panda-wordpress -o jsonpath="{.data.wordpress-password}" | base64 --decode)
 ```
 
-Ahora el chart `wordpress` está instalado. Tenga en cuenta que la instalación de
-un chart crea un nuevo objeto _release_. El release anterior se llama `happy-panda`.
-(Si desea que Helm genere un nombre por usted, omita el nombre del release y
-use `--generate-name`).
+Ahora el chart de `wordpress` está instalado. Ten en cuenta que instalar un
+chart crea un nuevo objeto _lanzamiento_. El lanzamiento anterior se llama
+`happy-panda`. (Si quieres que Helm genere un nombre por ti, omite el nombre
+del lanzamiento y usa `--generate-name`.)
 
 Durante la instalación, el cliente `helm` imprimirá información útil sobre qué
-recursos se crearon, cuál es el estado del release y también si hay pasos de
-configuración adicionales que puede o debe tomar.
+recursos se crearon, cuál es el estado del lanzamiento, y también si hay pasos
+adicionales de configuración que puedes o debes tomar.
 
-Helm no espera hasta que todos los recursos se estén ejecutando antes de salir.
-Muchos charts requieren imágenes de Docker que tienen un tamaño superior a 600M
-y pueden tardar mucho en instalarse en el clúster.
+Helm instala los recursos en el siguiente orden:
 
-Para realizar un seguimiento del estado de un release o para volver a leer la
-información de configuración, puede utilizar `helm status`:
+- Namespace
+- NetworkPolicy
+- ResourceQuota
+- LimitRange
+- PodSecurityPolicy
+- PodDisruptionBudget
+- ServiceAccount
+- Secret
+- SecretList
+- ConfigMap
+- StorageClass
+- PersistentVolume
+- PersistentVolumeClaim
+- CustomResourceDefinition
+- ClusterRole
+- ClusterRoleList
+- ClusterRoleBinding
+- ClusterRoleBindingList
+- Role
+- RoleList
+- RoleBinding
+- RoleBindingList
+- Service
+- DaemonSet
+- Pod
+- ReplicationController
+- ReplicaSet
+- Deployment
+- HorizontalPodAutoscaler
+- StatefulSet
+- Job
+- CronJob
+- Ingress
+- APIService
+
+Helm no espera hasta que todos los recursos estén ejecutándose antes de salir.
+Muchos charts requieren imágenes Docker que son de más de 600MB de tamaño, y
+pueden tardar mucho tiempo en instalarse en el clúster.
+
+Para hacer un seguimiento del estado de un lanzamiento, o para volver a leer la
+información de configuración, puedes usar `helm status`:
 
 ```console
 $ helm status happy-panda
@@ -178,15 +219,15 @@ To access your WordPress site from outside the cluster follow the steps below:
   echo Password: $(kubectl get secret --namespace default happy-panda-wordpress -o jsonpath="{.data.wordpress-password}" | base64 --decode)
 ```
 
-Lo anterior muestra el estado actual de su release.
+Lo anterior muestra el estado actual de tu lanzamiento.
 
-### Personalización del Charts antes de la instalación
+### Personalizando el Chart Antes de Instalar
 
-La instalación de la forma que tenemos aquí solo usará las opciones de
+Instalar de la manera que hemos hecho aquí solo usará las opciones de
 configuración predeterminadas para este chart. Muchas veces, querrás
 personalizar el chart para usar tu configuración preferida.
 
-Para ver qué opciones se pueden configurar en un chart, use `helm show values`:
+Para ver qué opciones son configurables en un chart, usa `helm show values`:
 
 ```console
 $ helm show values bitnami/wordpress
@@ -210,8 +251,8 @@ image:
   [..]
 ```
 
-Luego, puedes sobreescribir cualquiera de estas configuraciones en un archivo
-con formato YAML y luego pasar ese archivo durante la instalación.
+Luego puedes sobrescribir cualquiera de estas configuraciones en un archivo con
+formato YAML, y luego pasar ese archivo durante la instalación.
 
 ```console
 $ echo '{mariadb.auth.database: user0db, mariadb.auth.username: user0}' > values.yaml
@@ -260,7 +301,7 @@ outer:
   inner: value
 ```
 
-Las lista pueden ser expresadas
+Las listas pueden ser expresadas
 Las listas se pueden expresar encerrando valores en `{` y `}`. Por ejemplo,
 `--set name={a, b, c}` se traduce a:
 
@@ -454,54 +495,56 @@ $ helm repo add dev https://example.com/dev-charts
 ```
 
 Debido a que los repositorios de charts cambian con frecuencia, en cualquier
-momento puede asegurarse de que su cliente Helm esté actualizado ejecutando
+momento puedes asegurarte de que tu cliente Helm esté actualizado ejecutando
 `helm repo update`.
 
 Los repositorios se pueden eliminar con `helm repo remove`.
 
-## Creación de sus Propios Charts
+## Creando tus Propios Charts
 
-La [Guía de Desarrollo de Chart]({{< relref path="/docs/topics/charts.md" lang="en" >}})
-explica cómo desarrollar sus propios charts. Pero puede comenzar rápidamente usando
-el comando `helm create`:
+La [Guía de Desarrollo de Charts]({{< ref "../topics/charts.md" >}}) explica
+cómo desarrollar tus propios charts. Pero puedes comenzar rápidamente usando el
+comando `helm create`:
 
 ```console
 $ helm create deis-workflow
 Creating deis-workflow
 ```
 
-Ahora hay un chart en `./deis-workflow`. Puede editarlo y crear sus propias plantillas.
+Ahora hay un chart en `./deis-workflow`. Puedes editarlo y crear tus propias
+plantillas.
 
-A medida que editas tu chart, puede validar que está bien formado ejecutando
-`helm lint`.
+Mientras editas tu chart, puedes validar que esté bien formado ejecutando `helm
+lint`.
 
-Cuando llegue el momento de empaquetar el chart para su distribución, puedes
-ejecutar el comando `helm package`:
+Cuando sea hora de empaquetar el chart para su distribución, puedes ejecutar el
+comando `helm package`:
 
 ```console
 $ helm package deis-workflow
 deis-workflow-0.1.0.tgz
 ```
 
-Y este chart ahora se puede instalar fácilmente con `helm install`:
+Y ese chart ahora puede instalarse fácilmente con `helm install`:
 
 ```console
 $ helm install deis-workflow ./deis-workflow-0.1.0.tgz
 ...
 ```
 
-Los Charts empaquetados se pueden cargar en repositorios de charts. Consulte la
-documentación de los [Repositorios de Charts de Helm]({{< ref path="/docs/topics/chart_repository.md"  lang="en" >}})
-para obtener más detalles.
+Los charts que están empaquetados pueden cargarse en repositorios de charts.
+Consulta la documentación para [repositorios de charts de
+Helm]({{< ref "/docs/topics/chart_repository.md" >}}) para más detalles.
 
 ## Conclusión
 
-Este capítulo ha cubierto los patrones de uso básicos del cliente `helm`, incluida
-la búsqueda, instalación, actualización y desinstalación. También ha cubierto comandos
-útiles de utilidad como `helm status`, `helm get` y `helm repo`.
+Este capítulo ha cubierto los patrones básicos de uso del cliente `helm`,
+incluyendo búsqueda, instalación, actualización y desinstalación. También ha
+cubierto comandos de utilidad útiles como `helm status`, `helm get`, y `helm
+repo`.
 
-Para obtener más información sobre estos comandos, consulte la ayuda incorporada
+Para más información sobre estos comandos, echa un vistazo a la ayuda integrada
 de Helm: `helm help`.
 
-En el [capítulo siguiente]({{< relref path="/docs/howto/charts_tips_and_tricks/_index.md" lang="en" >}}),
-analizamos el proceso de desarrollo de charts.
+En el [próximo capítulo](../howto/charts_tips_and_tricks/), veremos el proceso
+de desarrollo de charts.

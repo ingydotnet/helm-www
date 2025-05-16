@@ -1,47 +1,48 @@
 ---
-title: "Instalar Helm"
-description: "Aprenda a instalar y poner Helm en funcionamiento."
+title: "Instalando Helm"
+description: "Aprende cómo instalar y comenzar a usar Helm."
 weight: 2
+aliases: ["/docs/install/"]
 ---
 
-Esta guía muestra cómo instalar Helm CLI. Helm se puede instalar desde la fuente
-o desde versiones binarias preconstruidas.
+Esta guía muestra cómo instalar el CLI de Helm. Helm se puede instalar desde el
+código fuente o desde versiones binarias precompiladas.
 
 ## Desde el Proyecto Helm
 
 El proyecto Helm proporciona dos formas de obtener e instalar Helm. Estos son los
-métodos oficiales para obtener lanzamientos de Helm. Además de eso, la comunidad
-de Helm proporciona métodos para instalar Helm a través de diferentes administradores
-de paquetes. La instalación a través de esos métodos se puede encontrar debajo
-de los métodos oficiales.
+métodos oficiales para obtener las versiones de Helm. Además de eso, la comunidad
+de Helm proporciona métodos para instalar Helm a través de diferentes gestores de
+paquetes. La instalación a través de esos métodos se puede encontrar debajo de
+los métodos oficiales.
 
-### De los Lanzamientos Binarios
+### Desde las Versiones Binarias
 
 Cada [lanzamiento](https://github.com/helm/helm/releases) de Helm proporciona
-binarios de lanzamiento para una variedad de sistemas operativos. Estas versiones
+versiones binarias para una variedad de sistemas operativos. Estas versiones
 binarias se pueden descargar e instalar manualmente.
 
 1. Descarga tu [versión deseada](https://github.com/helm/helm/releases)
-2. Desempaquétala (`tar -zxvf helm-v3.0.0-linux-amd64.tar.gz`)
-3. Encuentra el binario `helm` en el directorio desempaquetado, y muévelo a su
-destino deseado (`mv linux-amd64/helm /usr/local/bin/helm`)
+2. Descomprímela (`tar -zxvf helm-v3.0.0-linux-amd64.tar.gz`)
+3. Encuentra el binario `helm` en el directorio descomprimido y muévelo a su
+   destino deseado (`mv linux-amd64/helm /usr/local/bin/helm`)
 
-De ahí, debes ser capaz de correr el cliente y
-[agregar repos estables](https://helm.sh/docs/intro/quickstart/#initialize-a-helm-chart-repository):
+Desde allí, deberías poder ejecutar el cliente y [agregar el repositorio de
+charts estable](https://helm.sh/docs/intro/quickstart/#initialize-a-helm-chart-repository):
 `helm help`.
 
-**Nota:** Las pruebas automatizadas de Helm se realizan para Linux AMD64 solo durante
-las compilaciones y lanzamientes de GitHub Actions. Las pruebas de otros sistemas operativos
-son responsabilidad de la comunidad que solicita Helm para el sistema operativo
-en cuestión.
+**Nota:** Las pruebas automatizadas de Helm se realizan solo para Linux AMD64
+durante las compilaciones y lanzamientos de GitHub Actions. Las pruebas de otros
+sistemas operativos son responsabilidad de la comunidad que solicita Helm para el
+sistema operativo en cuestión.
 
 ### Desde Script
 
-Helm ahora tiene un script de instalación que automáticamente tomará la última versión
-de Helm y [la instalará localmente](https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3).
+Helm ahora tiene un script de instalación que obtendrá automáticamente la última
+versión de Helm y [la instalará localmente](https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3).
 
-Puede recuperar ese script y luego ejecutarlo localmente. Está bien documentado para
-que puedas leerlo y comprender lo que está haciendo antes de ejecutarlo.
+Puedes obtener ese script y luego ejecutarlo localmente. Está bien documentado
+para que puedas leerlo y entender lo que hace antes de ejecutarlo.
 
 ```console
 $ curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
@@ -49,41 +50,53 @@ $ chmod 700 get_helm.sh
 $ ./get_helm.sh
 ```
 
-Sí, puedes `curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash`si
+Sí, puedes usar `curl
+https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash` si
 quieres vivir al límite.
 
-## A Través de Administradores de Paquetes
+## A través de Gestores de Paquetes
 
-La comunidad de Helm ofrece la posibilidad de instalar Helm a través de administradores
-de paquetes del sistema operativo. Estos no son soportados por el proyecto Helm y
-no se consideran terceros de confianza.
+La comunidad de Helm proporciona la capacidad de instalar Helm a través de
+gestores de paquetes del sistema operativo. Estos no están respaldados por el
+proyecto Helm y no se consideran terceros confiables.
 
 ### Desde Homebrew (macOS)
 
-Los miembros de la comunidad de Helm han contribuido con una fórmula de Helm a Homebrew.
-Esta fórmula generalmente está actualizada.
+Los miembros de la comunidad de Helm han contribuido con una fórmula de Helm
+para Homebrew. Esta fórmula generalmente está actualizada.
 
 ```console
 brew install helm
 ```
 
-(Nota: también hay una fórmula para emacs-helm, que es un proyecto diferente).
+(Nota: También hay una fórmula para emacs-helm, que es un proyecto diferente.)
 
 ### Desde Chocolatey (Windows)
 
-Los miembros de la comunidad Helm han contribuido con un
-[paquete Helm](https://chocolatey.org/packages/kubernetes-helm) construido para
+Los miembros de la comunidad de Helm han contribuido con un [paquete de
+Helm](https://chocolatey.org/packages/kubernetes-helm) para
 [Chocolatey](https://chocolatey.org/). Este paquete generalmente está actualizado.
 
 ```console
 choco install kubernetes-helm
 ```
 
+### Desde Scoop (Windows)
+
+Los miembros de la comunidad de Helm han contribuido con un [paquete de
+Helm](https://github.com/ScoopInstaller/Main/blob/master/bucket/helm.json) para
+[Scoop](https://scoop.sh). Este paquete generalmente está actualizado.
+
+```console
+scoop install helm
+```
+
 ### Desde Winget (Windows)
 
-Los miembros de la comunidad Helm han contribuido con un
-[paquete Helm](https://github.com/microsoft/winget-pkgs/tree/master/manifests/h/Helm/Helm) construido para
-[Winget](https://learn.microsoft.com/en-us/windows/package-manager/). Este paquete generalmente está actualizado.
+Los miembros de la comunidad de Helm han contribuido con un [paquete de
+Helm](https://github.com/microsoft/winget-pkgs/tree/master/manifests/h/Helm/Helm)
+para [Winget](https://learn.microsoft.com/en-us/windows/package-manager/). Este
+paquete generalmente está actualizado.
 
 ```console
 winget install Helm.Helm
@@ -91,9 +104,9 @@ winget install Helm.Helm
 
 ### Desde Apt (Debian/Ubuntu)
 
-Los miembros de la comunidad Helm han contribuido con un
-[paquete Helm](https://helm.baltorepo.com/stable/debian/) para Apt.
-Este paquete generalmente está actualizado.
+Los miembros de la comunidad de Helm han contribuido con un [paquete de
+Helm](https://helm.baltorepo.com/stable/debian/) para Apt. Este paquete
+generalmente está actualizado.
 
 ```console
 curl https://baltocdn.com/helm/signing.asc | gpg --dearmor | sudo tee /usr/share/keyrings/helm.gpg > /dev/null
@@ -103,10 +116,18 @@ sudo apt-get update
 sudo apt-get install helm
 ```
 
+### Desde dnf/yum (fedora)
+Desde Fedora 35, helm está disponible en el repositorio oficial.
+Puedes instalar helm con:
+
+```console
+sudo dnf install helm
+```
+
 ### Desde Snap
 
-La comunidad [Snapcrafters](https://github.com/snapcrafters) mantiene la
-versión Snap del [paquete Helm](https://snapcraft.io/helm):
+La comunidad [Snapcrafters](https://github.com/snapcrafters) mantiene la versión
+Snap del [paquete Helm](https://snapcraft.io/helm):
 
 ```console
 sudo snap install helm --classic
@@ -114,38 +135,39 @@ sudo snap install helm --classic
 
 ### Desde pkg (FreeBSD)
 
-Los miembros de la comunidad FreeBSD han contribuido con una compilación de
-[paquete Helm](https://www.freshports.org/sysutils/helm) a la
-[Colección de Ports de FreeBSD](https://man.freebsd.org/ports)
+Los miembros de la comunidad de FreeBSD han contribuido con un [paquete de
+Helm](https://www.freshports.org/sysutils/helm) para la [Colección de Puertos de
+FreeBSD](https://man.freebsd.org/ports). Este paquete generalmente está
+actualizado.
 
 ```console
 pkg install helm
 ```
 
-### Builds de Desarrollo
+### Versiones de Desarrollo
 
-Además de los lanzamientos, puede descargar o instalar versiones de desarrollo de
-Helm.
+Además de las versiones que puedes descargar o instalar, hay instantáneas de
+desarrollo de Helm.
 
-### Desde Canary Builds
+### Desde Versiones Canary
 
-Los "Canary" builds son versiones del software Helm que se crean a partir lo último
-de la rama main. No son lanzamientos oficiales y pueden no ser estables. Sin embargo,
-ofrecen la oportunidad de probar las funciones de vanguardia.
+Las versiones "Canary" son versiones del software Helm que se construyen desde la
+última rama `main`. No son versiones oficiales y pueden no ser estables. Sin
+embargo, ofrecen la oportunidad de probar las características más recientes.
 
-Los binarios Canary builds se guardan en [get.helm.sh](https://get.helm.sh). Aquí
-hay enlaces a las compilaciones comunes:
+Los binarios Canary de Helm se almacenan en [get.helm.sh](https://get.helm.sh).
+Aquí están los enlaces a las compilaciones comunes:
 
 - [Linux AMD64](https://get.helm.sh/helm-canary-linux-amd64.tar.gz)
 - [macOS AMD64](https://get.helm.sh/helm-canary-darwin-amd64.tar.gz)
-- [Windows Experimental AMD64](https://get.helm.sh/helm-canary-windows-amd64.zip)
+- [Windows AMD64 Experimental](https://get.helm.sh/helm-canary-windows-amd64.zip)
 
-### Desde los Fuentes (Linux, macOS)
+### Desde el Código Fuente (Linux, macOS)
 
-Construir Helm desde los fuentes es un poco más complicado, pero es la mejor
-manera de hacerlo si desea probar la última versión (prelanzamiento) de Helm.
+Compilar Helm desde el código fuente es un poco más de trabajo, pero es la mejor
+manera de proceder si quieres probar la última versión (pre-lanzamiento) de Helm.
 
-Debe tener un entorno de trabajo de Go.
+Debes tener un entorno Go funcionando.
 
 ```console
 $ git clone https://github.com/helm/helm.git
@@ -153,15 +175,15 @@ $ cd helm
 $ make
 ```
 
-Si es necesario, buscará las dependencias, las almacenará en caché y validará
+Si es necesario, obtendrá las dependencias y las almacenará en caché, y validará
 la configuración. Luego compilará `helm` y lo colocará en `bin/helm`.
 
 ## Conclusión
 
 En la mayoría de los casos, la instalación es tan simple como obtener un binario
-`helm` preconstruido. Este documento cubre casos adicionales para aquellos que
-desean hacer cosas más sofisticadas con Helm.
+`helm` precompilado. Este documento cubre casos adicionales para aquellos que
+quieren hacer cosas más sofisticadas con Helm.
 
-Una vez que tenga el cliente de Helm instalado correctamente, puede continuar con
-el uso de Helm para administrar Charts y[agregar el repositorio
+Una vez que hayas instalado exitosamente el Cliente Helm, puedes continuar usando
+Helm para gestionar charts y [agregar el repositorio de charts
 estable](https://helm.sh/docs/intro/quickstart/#initialize-a-helm-chart-repository).
